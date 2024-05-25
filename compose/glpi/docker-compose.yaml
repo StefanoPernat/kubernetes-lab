@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  glpi:
+    image: diouxx/glpi
+    platform: linux/x86_64
+    container_name: glpi
+    restart: always
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    volumes:
+        - glpi-data:/var/www/html
+
+  db:
+    image: mysql:8
+    platform: linux/x86_64
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: glpi
+      MYSQL_USER: glpi
+      MYSQL_PASSWORD: glpi
+    volumes:
+      - db-data:/var/lib/mysql
+
+  nginx:
+    image: nginx
+    platform: linux/x86_64
+    container_name: nginx
+    restart: always
+    ports:
+      - "8081:80"
+    depends_on:
+      - glpi
+
+volumes:
+  glpi-data:
+  db-data:
