@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gitlab-server
+  name: gitlab-server
+  namespace: gitlab
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitlab-server
+  template:
+    metadata:
+      labels:
+        app: gitlab-server
+    spec:
+      containers:
+      - image: gitlab/gitlab-ce:17.5.1-ce.0
+        name: gitlab-server
